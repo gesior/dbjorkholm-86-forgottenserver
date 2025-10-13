@@ -3801,6 +3801,28 @@ bool Game::combatChangeHealth(Creature* attacker, Creature* target, CombatDamage
 		}
 
 		target->drainHealth(attacker, realDamage);
+
+		if (attacker) {
+			if (Player* attackerPlayer = attacker->getPlayer()) {
+				const int32_t lifestealPercent = attackerPlayer->getTotalLifeStealPercent();
+				if (lifestealPercent > 0) {
+					const int32_t missingHealth = attackerPlayer->getMaxHealth() - attackerPlayer->getHealth();
+					if (missingHealth > 0) {
+						const int32_t lifestealHeal = static_cast<int32_t>(std::floor(realDamage * (lifestealPercent / 100.0f)));
+						const int32_t healAmount = std::min<int32_t>(missingHealth, lifestealHeal);
+						if (healAmount > 0) {
+							attackerPlayer->changeHealth(healAmount);
+
+							TextMessage lifestealMessage;
+							lifestealMessage.type = MESSAGE_STATUS_DEFAULT;
+							lifestealMessage.text = "You recover " + std::to_string(healAmount) + (healAmount == 1 ? " hitpoint from lifesteal." : " hitpoints from lifesteal.");
+							attackerPlayer->sendTextMessage(lifestealMessage);
+						}
+					}
+				}
+			}
+		}
+
 		if (list.empty()) {
 			map.getSpectators(list, targetPos, true, true);
 		}

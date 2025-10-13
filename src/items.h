@@ -251,6 +251,7 @@ class ItemType
 		uint8_t lightColor;
 		uint8_t shootRange;
 		int8_t hitChance;
+	int16_t lifesteal;
 
 		bool forceUse;
 		bool hasHeight;

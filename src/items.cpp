@@ -51,7 +51,8 @@ ItemType::ItemType() :
 	showAttributes(false), replaceable(true), pickupable(false), rotatable(false),
 	useable(false), moveable(false), alwaysOnTop(false), canReadText(false),
 	canWriteText(false), isVertical(false), isHorizontal(false), isHangable(false),
-	allowDistRead(false), lookThrough(false), stopTime(false), showCount(true)
+	allowDistRead(false), lookThrough(false), stopTime(false), showCount(true),
+	lifesteal(0)
 {
 }
 
@@ -635,6 +636,8 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 			it.getAbilities().invisible = valueAttribute.as_bool();
 		} else if (tmpStrValue == "speed") {
 			it.getAbilities().speed = pugi::cast<int32_t>(valueAttribute.value());
+		} else if (tmpStrValue == "lifesteal") {
+			it.lifesteal = pugi::cast<int16_t>(valueAttribute.value());
 		} else if (tmpStrValue == "healthgain") {
 			Abilities& abilities = it.getAbilities();
 			abilities.regeneration = true;
