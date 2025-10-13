@@ -1062,7 +1062,7 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance,
 				s << ')';
 			}
 		}
-	} else if (it.armor != 0 || (item && item->getArmor() != 0) || it.showAttributes) {
+	} else if (it.armor != 0 || (item && item->getArmor() != 0) || it.showAttributes || (it.abilities && it.abilities->lifestealPercent != 0)) {
 		bool begin = true;
 
 		int32_t armor = (item ? item->getArmor() : it.armor);
@@ -1198,6 +1198,15 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance,
 				}
 
 				s << "speed " << std::showpos << (it.abilities->speed >> 1) << std::noshowpos;
+			}
+			if (it.abilities->lifestealPercent) {
+				if (begin) {
+					begin = false;
+					s << " (";
+				} else {
+					s << ", ";
+				}
+				s << "lifesteal " << it.abilities->lifestealPercent << '%';
 			}
 		}
 

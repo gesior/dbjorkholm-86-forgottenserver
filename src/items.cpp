@@ -635,6 +635,8 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 			it.getAbilities().invisible = valueAttribute.as_bool();
 		} else if (tmpStrValue == "speed") {
 			it.getAbilities().speed = pugi::cast<int32_t>(valueAttribute.value());
+		} else if (tmpStrValue == "lifesteal") {
+			it.getAbilities().lifestealPercent = pugi::cast<int16_t>(valueAttribute.value());
 		} else if (tmpStrValue == "healthgain") {
 			Abilities& abilities = it.getAbilities();
 			abilities.regeneration = true;

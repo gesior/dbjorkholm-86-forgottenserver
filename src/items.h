@@ -74,6 +74,8 @@ struct Abilities {
 
 		conditionImmunities = 0;
 		conditionSuppressions = 0;
+
+		lifestealPercent = 0;
 	}
 
 	uint32_t healthGain;
@@ -83,6 +85,9 @@ struct Abilities {
 
 	uint32_t conditionImmunities;
 	uint32_t conditionSuppressions;
+
+	// lifesteal percentage: percent of damage dealt returned as health
+	int16_t lifestealPercent;
 
 	//stats modifiers
 	int32_t stats[STAT_LAST + 1];
