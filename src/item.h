@@ -604,6 +604,12 @@ class Item : virtual public Thing
 			}
 			return items[id].hitChance;
 		}
+		int32_t getLifeSteal() const {
+			if (hasAttribute(ITEM_ATTRIBUTE_LIFESTEAL)) {
+				return getIntAttr(ITEM_ATTRIBUTE_LIFESTEAL);
+			}
+			return items[id].lifeSteal;
+		}
 
 		uint32_t getWorth() const;
 		void getLight(LightInfo& lightInfo) const;

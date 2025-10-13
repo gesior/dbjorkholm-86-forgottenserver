@@ -927,6 +927,24 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance,
 				}
 			}
 
+			int32_t lifeSteal;
+			if (item) {
+				lifeSteal = item->getLifeSteal();
+			} else {
+				lifeSteal = it.lifeSteal;
+			}
+
+			if (lifeSteal != 0) {
+				if (begin) {
+					begin = false;
+					s << " (";
+				} else {
+					s << ", ";
+				}
+
+				s << "Life Steal:" << lifeSteal << '%';
+			}
+
 			if (it.abilities) {
 				for (uint8_t i = SKILL_FIRST; i <= SKILL_LAST; i++) {
 					if (!it.abilities->skills[i]) {
