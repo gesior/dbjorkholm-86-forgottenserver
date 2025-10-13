@@ -74,6 +74,8 @@ struct Abilities {
 
 		conditionImmunities = 0;
 		conditionSuppressions = 0;
+
+		lifestealPercent = 0;
 	}
 
 	uint32_t healthGain;
@@ -106,6 +108,9 @@ struct Abilities {
 	bool manaShield;
 	bool invisible;
 	bool regeneration;
+
+	//lifesteal
+	int16_t lifestealPercent;
 };
 
 class ConditionDamage;
