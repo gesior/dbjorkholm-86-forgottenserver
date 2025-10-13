@@ -1056,6 +1056,17 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance,
 
 					s << "speed " << std::showpos << (it.abilities->speed >> 1) << std::noshowpos;
 				}
+
+				if (it.abilities->lifeStealPercent > 0) {
+					if (begin) {
+						begin = false;
+						s << " (";
+					} else {
+						s << ", ";
+					}
+
+					s << "life leech +" << it.abilities->lifeStealPercent << '%';
+				}
 			}
 
 			if (!begin) {
@@ -1199,6 +1210,17 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance,
 
 				s << "speed " << std::showpos << (it.abilities->speed >> 1) << std::noshowpos;
 			}
+
+			if (it.abilities->lifeStealPercent > 0) {
+				if (begin) {
+					begin = false;
+					s << " (";
+				} else {
+					s << ", ";
+				}
+
+				s << "life leech +" << it.abilities->lifeStealPercent << '%';
+			}
 		}
 
 		if (!begin) {
@@ -1231,6 +1253,8 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance,
 				s << " (faster regeneration)";
 			} else if (it.abilities->manaShield) {
 				s << " (mana shield)";
+			} else if (it.abilities->lifeStealPercent > 0) {
+				s << " (life leech +" << it.abilities->lifeStealPercent << "%)";
 			} else {
 				found = false;
 			}
