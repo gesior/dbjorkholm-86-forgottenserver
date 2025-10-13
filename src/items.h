@@ -74,6 +74,8 @@ struct Abilities {
 
 		conditionImmunities = 0;
 		conditionSuppressions = 0;
+
+		lifeStealPercent = 0;
 	}
 
 	uint32_t healthGain;
@@ -102,6 +104,9 @@ struct Abilities {
 	//elemental damage
 	uint16_t elementDamage;
 	CombatType_t elementType;
+
+	//lifesteal
+	uint16_t lifeStealPercent;
 
 	bool manaShield;
 	bool invisible;

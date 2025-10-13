@@ -398,6 +398,23 @@ int32_t Player::getArmor() const
 	return static_cast<int32_t>(armor * vocation->armorMultiplier);
 }
 
+uint16_t Player::getLifeSteal() const
+{
+	uint16_t lifeSteal = 0;
+
+	for (int32_t slot = CONST_SLOT_FIRST; slot <= CONST_SLOT_LAST; ++slot) {
+		Item* inventoryItem = inventory[slot];
+		if (inventoryItem) {
+			const ItemType& it = Item::items[inventoryItem->getID()];
+			if (it.abilities) {
+				lifeSteal += it.abilities->lifeStealPercent;
+			}
+		}
+	}
+
+	return lifeSteal;
+}
+
 void Player::getShieldAndWeapon(const Item*& shield, const Item*& weapon) const
 {
 	shield = nullptr;
@@ -3478,6 +3495,23 @@ void Player::onAttackedCreatureDrainHealth(Creature* target, int32_t points)
 			if (tmpMonster && tmpMonster->isHostile()) {
 				//We have fulfilled a requirement for shared experience
 				party->updatePlayerTicks(this, points);
+			}
+		}
+
+		// Lifesteal
+		uint16_t lifeStealPercent = getLifeSteal();
+		if (lifeStealPercent > 0 && points > 0) {
+			int32_t healthGain = (points * lifeStealPercent) / 100;
+			if (healthGain > 0) {
+				int32_t oldHealth = getHealth();
+				changeHealth(healthGain);
+				int32_t actualGain = getHealth() - oldHealth;
+
+				if (actualGain > 0) {
+					std::ostringstream ss;
+					ss << "You gained " << actualGain << " hitpoint" << (actualGain != 1 ? "s" : "") << " from life leech.";
+					sendTextMessage(MESSAGE_STATUS_DEFAULT, ss.str());
+				}
 			}
 		}
 	}
