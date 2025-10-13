@@ -1189,6 +1189,11 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance,
 				s << "protection all fields " << std::showpos << show << std::noshowpos << '%';
 			}
 
+						if (it.abilities->lifesteal != 0) {
+							s << (begin ? "\n" : ", ") << "lifesteal " << std::showpos << it.abilities->lifesteal << std::noshowpos << '%';
+							begin = false;
+						}
+
 			if (it.abilities->speed) {
 				if (begin) {
 					begin = false;

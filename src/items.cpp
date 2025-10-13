@@ -892,6 +892,8 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 			Abilities& abilities = it.getAbilities();
 			abilities.elementDamage = pugi::cast<uint16_t>(valueAttribute.value());
 			abilities.elementType = COMBAT_ENERGYDAMAGE;
+		} else if (tmpStrValue == "lifesteal") {
+			it.getAbilities().lifesteal = pugi::cast<int16_t>(valueAttribute.value());
 		} else if (tmpStrValue == "walkstack") {
 			it.walkStack = valueAttribute.as_bool();
 		} else if (tmpStrValue == "blocking") {

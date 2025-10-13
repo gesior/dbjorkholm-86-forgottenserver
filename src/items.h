@@ -72,6 +72,8 @@ struct Abilities {
 		manaGain = 0;
 		manaTicks = 0;
 
+		lifesteal = 0;
+
 		conditionImmunities = 0;
 		conditionSuppressions = 0;
 	}
@@ -102,6 +104,9 @@ struct Abilities {
 	//elemental damage
 	uint16_t elementDamage;
 	CombatType_t elementType;
+
+	//lifesteal
+	int16_t lifesteal;
 
 	bool manaShield;
 	bool invisible;

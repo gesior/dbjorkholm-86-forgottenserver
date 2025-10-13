@@ -509,6 +509,32 @@ void Combat::CombatHealthFunc(Creature* caster, Creature* target, const CombatPa
 	if (g_game.combatChangeHealth(caster, target, damage)) {
 		CombatConditionFunc(caster, target, params, nullptr);
 		CombatDispelFunc(caster, target, params, nullptr);
+
+		// Handle lifesteal
+		if (caster) {
+			Player* casterPlayer = caster->getPlayer();
+			if (casterPlayer && (damage.primary.value < 0 || damage.secondary.value < 0)) {
+				int32_t totalLifesteal = casterPlayer->getTotalLifesteal();
+				if (totalLifesteal > 0) {
+					int32_t totalDamage = std::abs(damage.primary.value) + std::abs(damage.secondary.value);
+					int32_t healAmount = (totalDamage * totalLifesteal) / 100;
+
+					if (healAmount > 0) {
+						int32_t currentHealth = casterPlayer->getHealth();
+						int32_t maxHealth = casterPlayer->getMaxHealth();
+
+						if (currentHealth < maxHealth) {
+							int32_t actualHeal = std::min(healAmount, maxHealth - currentHealth);
+							casterPlayer->changeHealth(actualHeal);
+
+							std::ostringstream ss;
+							ss << "You gained " << actualHeal << " hitpoints from lifesteal.";
+							casterPlayer->sendTextMessage(MESSAGE_STATUS_DEFAULT, ss.str());
+						}
+					}
+				}
+			}
+		}
 	}
 }
 
