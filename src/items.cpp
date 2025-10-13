@@ -651,6 +651,8 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 			Abilities& abilities = it.getAbilities();
 			abilities.regeneration = true;
 			abilities.manaTicks = pugi::cast<uint32_t>(valueAttribute.value());
+		} else if (tmpStrValue == "lifesteal") {
+			it.getAbilities().lifesteal = pugi::cast<uint32_t>(valueAttribute.value());
 		} else if (tmpStrValue == "manashield") {
 			it.getAbilities().manaShield = valueAttribute.as_bool();
 		} else if (tmpStrValue == "skillsword") {

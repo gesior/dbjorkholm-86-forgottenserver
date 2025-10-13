@@ -1199,6 +1199,17 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance,
 
 				s << "speed " << std::showpos << (it.abilities->speed >> 1) << std::noshowpos;
 			}
+
+			if (it.abilities->lifesteal) {
+				if (begin) {
+					begin = false;
+					s << " (";
+				} else {
+					s << ", ";
+				}
+
+				s << "lifesteal " << std::showpos << it.abilities->lifesteal << std::noshowpos << '%';
+			}
 		}
 
 		if (!begin) {

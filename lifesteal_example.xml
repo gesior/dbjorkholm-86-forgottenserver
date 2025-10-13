@@ -1,0 +1,37 @@
+<!-- Example items with lifesteal attribute -->
+<!-- Add these entries to data/items/items.xml -->
+
+<!-- Example 1: Vampiric Sword with 5% lifesteal -->
+<item id="2400" name="vampiric sword">
+	<attribute key="weight" value="4000"/>
+	<attribute key="attack" value="35"/>
+	<attribute key="defense" value="20"/>
+	<attribute key="weapontype" value="sword"/>
+	<attribute key="slottype" value="hand"/>
+	<attribute key="lifesteal" value="5"/>
+</item>
+
+<!-- Example 2: Ring of Vampirism with 3% lifesteal -->
+<item id="2213" name="ring of vampirism">
+	<attribute key="weight" value="100"/>
+	<attribute key="slottype" value="ring"/>
+	<attribute key="lifesteal" value="3"/>
+</item>
+
+<!-- Example 3: Vampiric Armor with 2% lifesteal and armor -->
+<item id="2463" name="vampiric armor">
+	<attribute key="weight" value="12000"/>
+	<attribute key="armor" value="15"/>
+	<attribute key="slottype" value="body"/>
+	<attribute key="lifesteal" value="2"/>
+</item>
+
+<!-- Example 4: Helmet with multiple attributes including lifesteal -->
+<item id="2458" name="vampiric helmet">
+	<attribute key="weight" value="2500"/>
+	<attribute key="armor" value="8"/>
+	<attribute key="slottype" value="head"/>
+	<attribute key="skillsword" value="2"/>
+	<attribute key="lifesteal" value="1"/>
+</item>
+

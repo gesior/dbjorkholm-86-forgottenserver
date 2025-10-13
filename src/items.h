@@ -72,6 +72,8 @@ struct Abilities {
 		manaGain = 0;
 		manaTicks = 0;
 
+		lifesteal = 0;
+
 		conditionImmunities = 0;
 		conditionSuppressions = 0;
 	}
@@ -80,6 +82,8 @@ struct Abilities {
 	uint32_t healthTicks;
 	uint32_t manaGain;
 	uint32_t manaTicks;
+
+	uint32_t lifesteal;
 
 	uint32_t conditionImmunities;
 	uint32_t conditionSuppressions;
