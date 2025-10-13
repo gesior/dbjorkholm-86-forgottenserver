@@ -653,6 +653,8 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 			abilities.manaTicks = pugi::cast<uint32_t>(valueAttribute.value());
 		} else if (tmpStrValue == "manashield") {
 			it.getAbilities().manaShield = valueAttribute.as_bool();
+		} else if (tmpStrValue == "lifesteal") {
+			it.getAbilities().lifestealPercent = pugi::cast<int16_t>(valueAttribute.value());
 		} else if (tmpStrValue == "skillsword") {
 			it.getAbilities().skills[SKILL_SWORD] = pugi::cast<int32_t>(valueAttribute.value());
 		} else if (tmpStrValue == "skillaxe") {

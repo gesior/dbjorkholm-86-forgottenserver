@@ -66,6 +66,7 @@ struct Abilities {
 		manaShield = false;
 		invisible = false;
 		regeneration = false;
+		lifestealPercent = 0;
 
 		healthGain = 0;
 		healthTicks = 0;
@@ -92,6 +93,7 @@ struct Abilities {
 	int32_t skills[SKILL_LAST + 1];
 
 	int32_t speed;
+	int16_t lifestealPercent;
 
 	// field damage abilities modifiers
 	int16_t fieldAbsorbPercent[COMBAT_COUNT];

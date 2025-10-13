@@ -458,6 +458,25 @@ int32_t Player::getDefense() const
 	return static_cast<int32_t>(std::ceil((static_cast<float>(defenseSkill * (defenseValue * 0.015)) + (defenseValue * 0.1)) * defenseFactor));
 }
 
+int32_t Player::getTotalLifestealPercent() const
+{
+    int32_t total = 0;
+    for (int32_t slot = CONST_SLOT_FIRST; slot <= CONST_SLOT_LAST; ++slot) {
+        if (!isItemAbilityEnabled(static_cast<slots_t>(slot))) {
+            continue;
+        }
+        const Item* item = inventory[slot];
+        if (!item) {
+            continue;
+        }
+        const ItemType& it = Item::items[item->getID()];
+        if (it.abilities && it.abilities->lifestealPercent) {
+            total += it.abilities->lifestealPercent;
+        }
+    }
+    return total;
+}
+
 float Player::getAttackFactor() const
 {
 	switch (fightMode) {
