@@ -511,6 +511,7 @@ class Player final : public Creature, public Cylinder
 			onSell = saleCallback;
 			return shopOwner;
 		}
+		int32_t getTotalLifesteal() const;
 
 		const Npc* getShopOwner(int32_t& onBuy, int32_t& onSell) const {
 			onBuy = purchaseCallback;
