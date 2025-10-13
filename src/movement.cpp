@@ -700,6 +700,11 @@ uint32_t MoveEvent::EquipItem(MoveEvent* moveEvent, Player* player, Item* item, 
 		player->addCondition(condition);
 	}
 
+	// lifesteal aggregation
+	if (it.abilities->lifestealPercent) {
+		player->addLifestealPercent(it.abilities->lifestealPercent);
+	}
+
 	//skill modifiers
 	bool needUpdateSkills = false;
 
@@ -773,6 +778,11 @@ uint32_t MoveEvent::DeEquipItem(MoveEvent*, Player* player, Item* item, slots_t 
 
 	if (it.abilities->regeneration) {
 		player->removeCondition(CONDITION_REGENERATION, static_cast<ConditionId_t>(slot));
+	}
+
+	// lifesteal aggregation removal
+	if (it.abilities->lifestealPercent) {
+		player->addLifestealPercent(-it.abilities->lifestealPercent);
 	}
 
 	//skill modifiers

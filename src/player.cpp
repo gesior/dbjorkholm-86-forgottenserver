@@ -50,6 +50,7 @@ uint32_t Player::playerAutoID = 0x10000000;
 Player::Player(ProtocolGame_ptr p) :
 	Creature(), inventory(), client(p), varSkills(), varStats(), inventoryAbilities()
 {
+	lifestealPercent = 0;
 	isConnecting = false;
 
 	accountNumber = 0;
@@ -3478,6 +3479,28 @@ void Player::onAttackedCreatureDrainHealth(Creature* target, int32_t points)
 			if (tmpMonster && tmpMonster->isHostile()) {
 				//We have fulfilled a requirement for shared experience
 				party->updatePlayerTicks(this, points);
+			}
+		}
+	}
+
+	// Apply lifesteal on damage dealt (points is the damage just drained)
+	if (points > 0) {
+		int16_t ls = getLifestealPercent();
+		if (ls > 0) {
+			// Calculate potential heal amount based on damage
+			int32_t heal = static_cast<int32_t>((static_cast<int64_t>(points) * ls) / 100);
+			if (heal > 0) {
+				int32_t oldHealth = getHealth();
+				int32_t maxHealth = getMaxHealth();
+				int32_t missing = std::max<int32_t>(0, maxHealth - oldHealth);
+				int32_t applied = std::min<int32_t>(heal, missing);
+				if (applied > 0) {
+					changeHealth(applied);
+					// Notify only if health actually increased
+					std::string healString = std::to_string(applied) + (applied != 1 ? " hitpoints." : " hitpoint.");
+					TextMessage message(MESSAGE_STATUS_DEFAULT, std::string("You recovered ") + healString);
+					sendTextMessage(message);
+				}
 			}
 		}
 	}

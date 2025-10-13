@@ -468,6 +468,14 @@ class Player final : public Creature, public Cylinder
 		void setVarStats(stats_t stat, int32_t modifier);
 		int32_t getDefaultStats(stats_t stat) const;
 
+		// lifesteal aggregation from equipped items
+		int16_t getLifestealPercent() const {
+			return std::max<int16_t>(0, lifestealPercent);
+		}
+		void addLifestealPercent(int16_t delta) {
+			lifestealPercent = static_cast<int16_t>(lifestealPercent + delta);
+		}
+
 		void addConditionSuppressions(uint32_t conditions);
 		void removeConditionSuppressions(uint32_t conditions);
 
@@ -1182,6 +1190,7 @@ class Player final : public Creature, public Cylinder
 		bool isConnecting;
 		bool addAttackSkillPoint;
 		bool inventoryAbilities[CONST_SLOT_LAST + 1];
+		int16_t lifestealPercent;
 
 		static uint32_t playerAutoID;
 

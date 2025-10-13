@@ -74,6 +74,8 @@ struct Abilities {
 
 		conditionImmunities = 0;
 		conditionSuppressions = 0;
+
+		lifestealPercent = 0;
 	}
 
 	uint32_t healthGain;
@@ -98,6 +100,9 @@ struct Abilities {
 
 	//damage abilities modifiers
 	int16_t absorbPercent[COMBAT_COUNT];
+
+	// percentage of damage dealt restored as health
+	int16_t lifestealPercent;
 
 	//elemental damage
 	uint16_t elementDamage;
