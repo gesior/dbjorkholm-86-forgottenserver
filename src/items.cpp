@@ -898,6 +898,9 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 			it.blockSolid = valueAttribute.as_bool();
 		} else if (tmpStrValue == "allowdistread") {
 			it.allowDistRead = booleanString(valueAttribute.as_string());
+		} else if (tmpStrValue == "lifesteal") {
+			Abilities& abilities = it.getAbilities();
+			abilities.lifestealPercent = pugi::cast<int16_t>(valueAttribute.value());
 		} else {
 			std::cout << "[Warning - Items::parseItemNode] Unknown key value: " << keyAttribute.as_string() << std::endl;
 		}
