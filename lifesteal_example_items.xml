@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+    Example items with lifesteal attribute
+    Add these to your data/items/items.xml file to test lifesteal functionality
+-->
+<items>
+    <!-- Vampire Sword - 5% lifesteal weapon -->
+    <item id="2400" article="a" name="vampire sword">
+        <attribute key="description" value="A cursed blade that drains life from its victims." />
+        <attribute key="weight" value="3500" />
+        <attribute key="weaponType" value="sword" />
+        <attribute key="slotType" value="two-handed" />
+        <attribute key="attack" value="40" />
+        <attribute key="defense" value="22" />
+        <attribute key="lifesteal" value="5" />
+    </item>
+
+    <!-- Vampiric Helmet - 2% lifesteal armor -->
+    <item id="2458" article="a" name="vampiric helmet">
+        <attribute key="description" value="This helmet is infused with dark magic." />
+        <attribute key="weight" value="2200" />
+        <attribute key="slotType" value="head" />
+        <attribute key="armor" value="8" />
+        <attribute key="lifesteal" value="2" />
+    </item>
+
+    <!-- Ring of the Vampire - 3% lifesteal accessory -->
+    <item id="2166" article="a" name="ring of the vampire">
+        <attribute key="description" value="A ring that feeds on the life force of enemies." />
+        <attribute key="weight" value="90" />
+        <attribute key="slotType" value="ring" />
+        <attribute key="lifesteal" value="3" />
+        <attribute key="showduration" value="1" />
+        <attribute key="duration" value="600" />
+        <attribute key="decayTo" value="0" />
+    </item>
+
+    <!-- Blood Armor - 4% lifesteal heavy armor -->
+    <item id="2463" article="a" name="blood armor">
+        <attribute key="description" value="Armor forged from the essence of countless battles." />
+        <attribute key="weight" value="12000" />
+        <attribute key="slotType" value="body" />
+        <attribute key="armor" value="15" />
+        <attribute key="lifesteal" value="4" />
+    </item>
+
+    <!-- Vampire Amulet - 2% lifesteal with protection -->
+    <item id="2131" article="a" name="vampire amulet">
+        <attribute key="description" value="An amulet that grants both protection and vampiric powers." />
+        <attribute key="weight" value="520" />
+        <attribute key="slotType" value="necklace" />
+        <attribute key="absorbPercentPhysical" value="5" />
+        <attribute key="lifesteal" value="2" />
+    </item>
+
+    <!-- Bloodthirsty Axe - 6% lifesteal with high attack -->
+    <item id="2415" article="a" name="bloodthirsty axe">
+        <attribute key="description" value="This axe hungers for blood and grants its wielder vitality." />
+        <attribute key="weight" value="4200" />
+        <attribute key="weaponType" value="axe" />
+        <attribute key="slotType" value="two-handed" />
+        <attribute key="attack" value="42" />
+        <attribute key="defense" value="18" />
+        <attribute key="lifesteal" value="6" />
+    </item>
+
+    <!-- Leech Boots - 1% lifesteal boots -->
+    <item id="2195" article="a" name="leech boots">
+        <attribute key="description" value="Boots that slowly drain life from your enemies." />
+        <attribute key="weight" value="750" />
+        <attribute key="slotType" value="feet" />
+        <attribute key="armor" value="3" />
+        <attribute key="speed" value="10" />
+        <attribute key="lifesteal" value="1" />
+    </item>
+
+    <!-- Combined Set Bonus Example -->
+    <!-- If a player wears:
+         - Vampire Sword (5%)
+         - Vampiric Helmet (2%)
+         - Ring of the Vampire (3%)
+         - Blood Armor (4%)
+         = Total 14% lifesteal
+         
+         Dealing 100 damage would heal 14 HP
+         Dealing 500 damage would heal 70 HP
+    -->
+</items>
+
