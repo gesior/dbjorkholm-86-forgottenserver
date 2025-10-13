@@ -4289,3 +4289,36 @@ void Player::setGuild(Guild* guild)
 		oldGuild->removeMember(this);
 	}
 }
+
+int16_t Player::getTotalLifestealPercent() const
+{
+	int32_t percent = 0;
+
+	for (int32_t slot = CONST_SLOT_FIRST; slot <= CONST_SLOT_LAST; ++slot) {
+		if (!isItemAbilityEnabled(static_cast<slots_t>(slot))) {
+			continue;
+		}
+
+		Item* item = inventory[slot];
+		if (!item) {
+			continue;
+		}
+
+		const ItemType& it = Item::items[item->getID()];
+		if (!it.abilities) {
+			continue;
+		}
+
+		percent += it.abilities->lifestealPercent;
+	}
+
+	if (percent < std::numeric_limits<int16_t>::min()) {
+		return std::numeric_limits<int16_t>::min();
+	}
+
+	if (percent > std::numeric_limits<int16_t>::max()) {
+		return std::numeric_limits<int16_t>::max();
+	}
+
+	return static_cast<int16_t>(percent);
+}

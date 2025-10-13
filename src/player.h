@@ -470,6 +470,8 @@ class Player final : public Creature, public Cylinder
 
 		void addConditionSuppressions(uint32_t conditions);
 		void removeConditionSuppressions(uint32_t conditions);
+		bool hasConditionSuppressions(uint32_t conditions) const;
+		int16_t getTotalLifestealPercent() const;
 
 		DepotChest* getDepotChest(uint32_t depotId, bool autoCreate);
 		DepotLocker* getDepotLocker(uint32_t depotId);

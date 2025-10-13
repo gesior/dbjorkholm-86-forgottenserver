@@ -25,6 +25,8 @@
 #include "weapons.h"
 
 #include "pugicast.h"
+#include <algorithm>
+#include <limits>
 
 uint32_t Items::dwMajorVersion = 0;
 uint32_t Items::dwMinorVersion = 0;
@@ -639,6 +641,15 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 			Abilities& abilities = it.getAbilities();
 			abilities.regeneration = true;
 			abilities.healthGain = pugi::cast<uint32_t>(valueAttribute.value());
+		} else if (tmpStrValue == "lifesteal") {
+			Abilities& abilities = it.getAbilities();
+			int32_t rawValue = pugi::cast<int32_t>(valueAttribute.value());
+			if (rawValue < std::numeric_limits<int16_t>::min()) {
+				rawValue = std::numeric_limits<int16_t>::min();
+			} else if (rawValue > std::numeric_limits<int16_t>::max()) {
+				rawValue = std::numeric_limits<int16_t>::max();
+			}
+			abilities.lifestealPercent = static_cast<int16_t>(rawValue);
 		} else if (tmpStrValue == "healthticks") {
 			Abilities& abilities = it.getAbilities();
 			abilities.regeneration = true;
