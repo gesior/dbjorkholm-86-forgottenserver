@@ -222,6 +222,7 @@ class ItemType
 		int32_t rotateTo;
 		int32_t runeMagLevel;
 		int32_t runeLevel;
+		int32_t lifeSteal;
 
 		CombatType_t combatType;
 

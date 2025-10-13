@@ -3806,6 +3806,33 @@ bool Game::combatChangeHealth(Creature* attacker, Creature* target, CombatDamage
 		}
 		addCreatureHealth(list, target);
 
+		// Lifesteal: heal attacker based on equipped items
+		if (attackerPlayer && attacker->getHealth() > 0) {
+			int32_t totalLifeSteal = 0;
+			for (int32_t slot = CONST_SLOT_FIRST; slot <= CONST_SLOT_LAST; ++slot) {
+				Item* item = attackerPlayer->getInventoryItem(static_cast<slots_t>(slot));
+				if (item) {
+					totalLifeSteal += item->getLifeSteal();
+				}
+			}
+
+			if (totalLifeSteal > 0) {
+				int32_t lifeStealAmount = (realDamage * totalLifeSteal) / 100;
+				if (lifeStealAmount > 0) {
+					int32_t healthBefore = attackerPlayer->getHealth();
+					attackerPlayer->gainHealth(attackerPlayer, lifeStealAmount);
+					int32_t actualHealed = attackerPlayer->getHealth() - healthBefore;
+
+					if (actualHealed > 0) {
+						TextMessage healMessage;
+						healMessage.type = MESSAGE_STATUS_DEFAULT;
+						healMessage.text = "You gained " + std::to_string(actualHealed) + " hitpoint" + (actualHealed != 1 ? "s" : "") + " from lifesteal.";
+						attackerPlayer->sendTextMessage(healMessage);
+					}
+				}
+			}
+		}
+
 		message.primary.value = damage.primary.value;
 		message.secondary.value = damage.secondary.value;
 
