@@ -44,7 +44,7 @@ ItemType::ItemType() :
 	speed(0), wareId(0), magicEffect(CONST_ME_NONE), bedPartnerDir(DIRECTION_NONE),
 	weaponType(WEAPON_NONE), ammoType(AMMO_NONE), shootType(CONST_ANI_NONE),
 	corpseType(RACE_NONE), fluidSource(FLUID_NONE), floorChange(0),
-	alwaysOnTopOrder(0), lightLevel(0), lightColor(0), shootRange(1), hitChance(0),
+	alwaysOnTopOrder(0), lightLevel(0), lightColor(0), shootRange(1), hitChance(0), lifesteal(0),
 	forceUse(false), hasHeight(false), walkStack(true), blockSolid(false),
 	blockPickupable(false), blockProjectile(false), blockPathFind(false),
 	allowPickupable(false), showDuration(false), showCharges(false),
@@ -538,6 +538,11 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 			it.canReadText = it.canWriteText;
 		} else if (tmpStrValue == "maxtextlen") {
 			it.maxTextLen = pugi::cast<uint16_t>(valueAttribute.value());
+		} else if (tmpStrValue == "lifesteal") {
+			int32_t ls = pugi::cast<int32_t>(valueAttribute.value());
+			if (ls < 0) ls = 0;
+			if (ls > 100) ls = 100;
+			it.lifesteal = static_cast<uint8_t>(ls);
 		} else if (tmpStrValue == "writeonceitemid") {
 			it.writeOnceItemId = pugi::cast<uint16_t>(valueAttribute.value());
 		} else if (tmpStrValue == "weapontype") {

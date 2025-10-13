@@ -889,6 +889,10 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance,
 				s << ", Hit%" << std::showpos << static_cast<int16_t>(hitChance) << std::noshowpos;
 			}
 
+			if (it.lifesteal > 0) {
+				s << ", Lifesteal " << static_cast<int>(it.lifesteal) << '%';
+			}
+
 			s << ')';
 		} else if (it.weaponType != WEAPON_AMMO) {
 			bool begin = true;
@@ -1199,6 +1203,17 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance,
 
 				s << "speed " << std::showpos << (it.abilities->speed >> 1) << std::noshowpos;
 			}
+		}
+
+		// Lifesteal description for weapons
+		if (it.lifesteal > 0) {
+			if (begin) {
+				begin = false;
+				s << " (";
+			} else {
+				s << ", ";
+			}
+			s << "Lifesteal " << static_cast<int>(it.lifesteal) << '%';
 		}
 
 		if (!begin) {

@@ -251,6 +251,7 @@ class ItemType
 		uint8_t lightColor;
 		uint8_t shootRange;
 		int8_t hitChance;
+		uint8_t lifesteal; // percentage of damage returned as health
 
 		bool forceUse;
 		bool hasHeight;
