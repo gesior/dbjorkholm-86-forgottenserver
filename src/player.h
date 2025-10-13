@@ -597,6 +597,7 @@ class Player final : public Creature, public Cylinder
 
 		void drainHealth(Creature* attacker, int32_t damage) final;
 		void drainMana(Creature* attacker, int32_t manaLoss) final;
+		int32_t getTotalLifeStealPercent() const;
 		void addManaSpent(uint64_t amount);
 		void addSkillAdvance(skills_t skill, uint64_t count);
 

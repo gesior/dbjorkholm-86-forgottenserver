@@ -1846,6 +1846,25 @@ bool Player::hasShield() const
 	return false;
 }
 
+int32_t Player::getTotalLifeStealPercent() const
+{
+	int32_t total = 0;
+	for (int32_t slot = CONST_SLOT_FIRST; slot <= CONST_SLOT_LAST; ++slot) {
+		if (!isItemAbilityEnabled(static_cast<slots_t>(slot))) {
+			continue;
+		}
+
+		Item* item = inventory[slot];
+		if (!item) {
+			continue;
+		}
+
+		const ItemType& it = Item::items[item->getID()];
+		total += it.lifesteal;
+	}
+	return total;
+}
+
 BlockType_t Player::blockHit(Creature* attacker, CombatType_t combatType, int32_t& damage,
 							 bool checkDefense /* = false*/, bool checkArmor /* = false*/, bool field /* = false*/)
 {

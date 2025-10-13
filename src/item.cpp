@@ -890,7 +890,7 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance,
 			}
 
 			s << ')';
-		} else if (it.weaponType != WEAPON_AMMO) {
+	} else if (it.weaponType != WEAPON_AMMO) {
 			bool begin = true;
 
 			int32_t attack, defense, extraDefense;
@@ -1204,7 +1204,13 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance,
 		if (!begin) {
 			s << ')';
 		}
-	} else if (it.isContainer() || (item && item->getContainer())) {
+	}
+
+	if (it.lifesteal != 0) {
+		s << " (Lifesteal: " << it.lifesteal << "%)";
+	}
+
+	if (it.isContainer() || (item && item->getContainer())) {
 		uint32_t volume = 0;
 		if (!item || !item->hasAttribute(ITEM_ATTRIBUTE_UNIQUEID)) {
 			if (it.isContainer()) {
