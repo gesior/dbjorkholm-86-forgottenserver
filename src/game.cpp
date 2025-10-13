@@ -3665,6 +3665,22 @@ bool Game::combatChangeHealth(Creature* attacker, Creature* target, CombatDamage
 				}
 				tmpPlayer->sendTextMessage(message);
 			}
+
+			if (attackerPlayer) {
+				int16_t lifestealPercent = attackerPlayer->getTotalLifestealPercent();
+				if (lifestealPercent > 0) {
+					int32_t lifestealAmount = (realHealthChange * lifestealPercent) / 100;
+					if (lifestealAmount > 0) {
+						int32_t previousHealth = attackerPlayer->getHealth();
+						attackerPlayer->changeHealth(lifestealAmount);
+						int32_t healed = attackerPlayer->getHealth() - previousHealth;
+						if (healed > 0) {
+							std::string healString = std::to_string(healed) + (healed != 1 ? " hitpoints." : " hitpoint.");
+							attackerPlayer->sendTextMessage(MESSAGE_STATUS_DEFAULT, "You recovered " + healString);
+						}
+					}
+				}
+			}
 		}
 	} else {
 		if (!target->isAttackable()) {
@@ -3805,6 +3821,22 @@ bool Game::combatChangeHealth(Creature* attacker, Creature* target, CombatDamage
 			map.getSpectators(list, targetPos, true, true);
 		}
 		addCreatureHealth(list, target);
+
+		if (attackerPlayer) {
+			int16_t lifestealPercent = attackerPlayer->getTotalLifestealPercent();
+			if (lifestealPercent > 0) {
+				int32_t lifestealAmount = (realDamage * lifestealPercent) / 100;
+				if (lifestealAmount > 0) {
+					int32_t previousHealth = attackerPlayer->getHealth();
+					attackerPlayer->gainHealth(attackerPlayer, lifestealAmount);
+					int32_t healed = attackerPlayer->getHealth() - previousHealth;
+					if (healed > 0) {
+						std::string healString = std::to_string(healed) + (healed != 1 ? " hitpoints." : " hitpoint.");
+						attackerPlayer->sendTextMessage(MESSAGE_STATUS_DEFAULT, "You recovered " + healString);
+					}
+				}
+			}
+		}
 
 		message.primary.value = damage.primary.value;
 		message.secondary.value = damage.secondary.value;

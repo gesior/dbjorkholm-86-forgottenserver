@@ -927,7 +927,7 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance,
 				}
 			}
 
-			if (it.abilities) {
+	if (it.abilities) {
 				for (uint8_t i = SKILL_FIRST; i <= SKILL_LAST; i++) {
 					if (!it.abilities->skills[i]) {
 						continue;
@@ -1055,6 +1055,17 @@ std::string Item::getDescription(const ItemType& it, int32_t lookDistance,
 					}
 
 					s << "speed " << std::showpos << (it.abilities->speed >> 1) << std::noshowpos;
+				}
+
+				if (it.abilities->lifestealPercent != 0) {
+					if (begin) {
+						begin = false;
+						s << " (";
+					} else {
+						s << ", ";
+					}
+
+					s << "lifesteal " << std::showpos << it.abilities->lifestealPercent << std::noshowpos << '%';
 				}
 			}
 
