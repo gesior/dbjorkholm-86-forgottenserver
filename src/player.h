@@ -562,6 +562,8 @@ class Player final : public Creature, public Cylinder
 		void changeMana(int32_t manaChange) final;
 		void changeSoul(int32_t soulChange);
 
+		int32_t getTotalLifestealPercent() const;
+
 		bool isPzLocked() const {
 			return pzLocked;
 		}
