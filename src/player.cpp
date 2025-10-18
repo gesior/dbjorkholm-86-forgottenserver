@@ -22,6 +22,7 @@
 #include <bitset>
 
 #include "bed.h"
+#include "tools.h"
 #include "chat.h"
 #include "combat.h"
 #include "configmanager.h"
@@ -413,6 +414,23 @@ uint16_t Player::getLifeSteal() const
 	}
 
 	return lifeSteal;
+}
+
+uint16_t Player::getLifeStealChance() const
+{
+	uint16_t lifeStealChance = 0;
+
+	for (int32_t slot = CONST_SLOT_FIRST; slot <= CONST_SLOT_LAST; ++slot) {
+		Item* inventoryItem = inventory[slot];
+		if (inventoryItem) {
+			const ItemType& it = Item::items[inventoryItem->getID()];
+			if (it.abilities) {
+				lifeStealChance += it.abilities->lifeStealChancePercent;
+			}
+		}
+	}
+
+	return lifeStealChance;
 }
 
 void Player::getShieldAndWeapon(const Item*& shield, const Item*& weapon) const
@@ -3501,16 +3519,19 @@ void Player::onAttackedCreatureDrainHealth(Creature* target, int32_t points)
 		// Lifesteal
 		uint16_t lifeStealPercent = getLifeSteal();
 		if (lifeStealPercent > 0 && points > 0) {
-			int32_t healthGain = (points * lifeStealPercent) / 100;
-			if (healthGain > 0) {
-				int32_t oldHealth = getHealth();
-				changeHealth(healthGain);
-				int32_t actualGain = getHealth() - oldHealth;
+			uint16_t lifeStealChance = getLifeStealChance();
+			if (lifeStealChance >= 100 || uniform_random(1, 100) <= lifeStealChance) {
+				int32_t healthGain = (points * lifeStealPercent) / 100;
+				if (healthGain > 0) {
+					int32_t oldHealth = getHealth();
+					changeHealth(healthGain);
+					int32_t actualGain = getHealth() - oldHealth;
 
-				if (actualGain > 0) {
-					std::ostringstream ss;
-					ss << "You gained " << actualGain << " hitpoint" << (actualGain != 1 ? "s" : "") << " from life leech.";
-					sendTextMessage(MESSAGE_STATUS_DEFAULT, ss.str());
+					if (actualGain > 0) {
+						std::ostringstream ss;
+						ss << "You gained " << actualGain << " hitpoint" << (actualGain != 1 ? "s" : "") << " from life leech.";
+						sendTextMessage(MESSAGE_STATUS_DEFAULT, ss.str());
+					}
 				}
 			}
 		}
