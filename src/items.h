@@ -76,6 +76,7 @@ struct Abilities {
 		conditionSuppressions = 0;
 
 		lifeStealPercent = 0;
+		lifeStealChancePercent = 0;
 	}
 
 	uint32_t healthGain;
@@ -107,6 +108,7 @@ struct Abilities {
 
 	//lifesteal
 	uint16_t lifeStealPercent;
+	uint16_t lifeStealChancePercent;
 
 	bool manaShield;
 	bool invisible;

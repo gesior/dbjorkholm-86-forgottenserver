@@ -606,6 +606,7 @@ class Player final : public Creature, public Cylinder
 		float getDefenseFactor() const final;
 
 		uint16_t getLifeSteal() const;
+		uint16_t getLifeStealChance() const;
 
 		void addCombatExhaust(uint32_t ticks);
 		void addHealExhaust(uint32_t ticks);

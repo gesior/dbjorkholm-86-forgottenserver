@@ -733,6 +733,8 @@ void Items::parseItemNode(const pugi::xml_node& itemNode, uint16_t id)
 			it.getAbilities().absorbPercent[combatTypeToIndex(COMBAT_UNDEFINEDDAMAGE)] += pugi::cast<int16_t>(valueAttribute.value());
 		} else if (tmpStrValue == "lifesteal") {
 			it.getAbilities().lifeStealPercent += pugi::cast<uint16_t>(valueAttribute.value());
+		} else if (tmpStrValue == "lifestealchance") {
+			it.getAbilities().lifeStealChancePercent += pugi::cast<uint16_t>(valueAttribute.value());
 		} else if (tmpStrValue == "suppressdrunk") {
 			if (valueAttribute.as_bool()) {
 				it.getAbilities().conditionSuppressions |= CONDITION_DRUNK;
