@@ -10,4 +10,5 @@
 	<event type="extendedopcode" name="ExtendedOpcode" script="extendedopcode.lua" />
 	<event type="healthchange" name="DmgRingHealthChange" script="dmgRing.lua" />
 	<event type="healthchange" name="ItemStatsHealthChange" script="item stats.lua" />
+	<event type="inventorychange" name="ItemStatsInventoryChange" script="item stats.lua" />
 </creaturescripts>

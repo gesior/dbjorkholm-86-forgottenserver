@@ -34,5 +34,6 @@ function onLogin(player)
 	player:registerEvent("DropLoot")
 	player:registerEvent("DmgRingHealthChange")
 	player:registerEvent("ItemStatsHealthChange")
+	player:registerEvent("ItemStatsInventoryChange")
 	return true
 end
