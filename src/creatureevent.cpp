@@ -189,6 +189,8 @@ bool CreatureEvent::configureEvent(const pugi::xml_node& node)
 		type = CREATURE_EVENT_MANACHANGE;
 	} else if (tmpStr == "extendedopcode") {
 		type = CREATURE_EVENT_EXTENDED_OPCODE;
+	} else if (tmpStr == "inventorychange") {
+		type = CREATURE_EVENT_INVENTORY_CHANGE;
 	} else {
 		std::cout << "[Error - CreatureEvent::configureEvent] Invalid type for creature event: " << eventName << std::endl;
 		return false;
@@ -234,6 +236,9 @@ std::string CreatureEvent::getScriptEventName() const
 
 		case CREATURE_EVENT_EXTENDED_OPCODE:
 			return "onExtendedOpcode";
+
+		case CREATURE_EVENT_INVENTORY_CHANGE:
+			return "onInventoryChange";
 
 		case CREATURE_EVENT_NONE:
 		default:
@@ -556,4 +561,24 @@ void CreatureEvent::executeExtendedOpcode(Player* player, uint8_t opcode, const 
 	LuaScriptInterface::pushString(L, buffer);
 
 	scriptInterface->callVoidFunction(3);
+}
+
+void CreatureEvent::executeOnInventoryChange(Player* player)
+{
+	//onInventoryChange(player)
+	if (!scriptInterface->reserveScriptEnv()) {
+		std::cout << "[Error - CreatureEvent::executeOnInventoryChange] Call stack overflow" << std::endl;
+		return;
+	}
+
+	ScriptEnvironment* env = scriptInterface->getScriptEnv();
+	env->setScriptId(scriptId, scriptInterface);
+
+	lua_State* L = scriptInterface->getLuaState();
+
+	scriptInterface->pushFunction(scriptId);
+	LuaScriptInterface::pushUserdata(L, player);
+	LuaScriptInterface::setMetatable(L, -1, "Player");
+
+	scriptInterface->callVoidFunction(1);
 }
