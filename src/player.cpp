@@ -2768,6 +2768,12 @@ void Player::addThing(int32_t index, Thing* thing)
 
 	//send to client
 	sendInventoryItem(static_cast<slots_t>(index), item);
+
+	//trigger inventory change event
+	const CreatureEventList& inventoryChangeEvents = getCreatureEvents(CREATURE_EVENT_INVENTORY_CHANGE);
+	for (CreatureEvent* inventoryChangeEvent : inventoryChangeEvents) {
+		inventoryChangeEvent->executeOnInventoryChange(this);
+	}
 }
 
 void Player::updateThing(Thing* thing, uint16_t itemId, uint32_t count)
@@ -2817,6 +2823,8 @@ void Player::replaceThing(uint32_t index, Thing* thing)
 	item->setParent(this);
 
 	inventory[index] = item;
+
+	onInventoryChange();
 }
 
 void Player::removeThing(Thing* thing, uint32_t count)
@@ -2841,6 +2849,8 @@ void Player::removeThing(Thing* thing, uint32_t count)
 
 			item->setParent(nullptr);
 			inventory[index] = nullptr;
+
+			onInventoryChange();
 		} else {
 			uint8_t newCount = static_cast<uint8_t>(std::max<int32_t>(0, item->getItemCount() - count));
 			item->setItemCount(newCount);
@@ -2860,6 +2870,8 @@ void Player::removeThing(Thing* thing, uint32_t count)
 
 		item->setParent(nullptr);
 		inventory[index] = nullptr;
+
+		onInventoryChange();
 	}
 }
 
@@ -3152,6 +3164,8 @@ void Player::internalAddThing(uint32_t index, Thing* thing)
 
 		inventory[index] = item;
 		item->setParent(this);
+
+		onInventoryChange();
 	}
 }
 
@@ -4342,5 +4356,13 @@ void Player::setGuild(Guild* guild)
 
 	if (oldGuild) {
 		oldGuild->removeMember(this);
+	}
+}
+
+void Player::onInventoryChange()
+{
+	const CreatureEventList& inventoryChangeEvents = getCreatureEvents(CREATURE_EVENT_INVENTORY_CHANGE);
+	for (CreatureEvent* inventoryChangeEvent : inventoryChangeEvents) {
+		inventoryChangeEvent->executeOnInventoryChange(this);
 	}
 }
