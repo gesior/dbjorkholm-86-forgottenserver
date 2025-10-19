@@ -605,8 +605,8 @@ class Player final : public Creature, public Cylinder
 		float getAttackFactor() const final;
 		float getDefenseFactor() const final;
 
-		uint16_t getLifeSteal() const;
-		uint16_t getLifeStealChance() const;
+		uint16_t getLifeSteal();
+		uint16_t getLifeStealChance();
 
 		void addCombatExhaust(uint32_t ticks);
 		void addHealExhaust(uint32_t ticks);
@@ -1162,6 +1162,11 @@ class Player final : public Creature, public Cylinder
 		int32_t idleTime;
 
 		uint16_t lastStatsTrainingTime;
+
+		uint16_t lifeStealPercent = 0;
+		uint16_t lifeStealChancePercent = 0;
+		bool lifeStealPercentNeedUpdate = true;
+		bool lifeStealChancePercentNeedUpdate = true;
 
 		uint16_t staminaMinutes;
 		uint16_t maxWriteLen;

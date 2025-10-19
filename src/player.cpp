@@ -399,38 +399,46 @@ int32_t Player::getArmor() const
 	return static_cast<int32_t>(armor * vocation->armorMultiplier);
 }
 
-uint16_t Player::getLifeSteal() const
+uint16_t Player::getLifeSteal()
 {
-	uint16_t lifeSteal = 0;
+	if (!lifeStealPercentNeedUpdate) {
+		return lifeStealPercent;
+	}
 
+	lifeStealPercent = 0;
 	for (int32_t slot = CONST_SLOT_FIRST; slot <= CONST_SLOT_LAST; ++slot) {
 		Item* inventoryItem = inventory[slot];
 		if (inventoryItem) {
 			const ItemType& it = Item::items[inventoryItem->getID()];
 			if (it.abilities) {
-				lifeSteal += it.abilities->lifeStealPercent;
+				lifeStealPercent += it.abilities->lifeStealPercent;
 			}
 		}
 	}
 
-	return lifeSteal;
+	lifeStealPercentNeedUpdate = false;
+	return lifeStealPercent;
 }
 
-uint16_t Player::getLifeStealChance() const
+uint16_t Player::getLifeStealChance()
 {
-	uint16_t lifeStealChance = 0;
+	if (!lifeStealChancePercentNeedUpdate) {
+		return lifeStealChancePercent;
+	}
 
+	lifeStealChancePercent = 0;
 	for (int32_t slot = CONST_SLOT_FIRST; slot <= CONST_SLOT_LAST; ++slot) {
 		Item* inventoryItem = inventory[slot];
 		if (inventoryItem) {
 			const ItemType& it = Item::items[inventoryItem->getID()];
 			if (it.abilities) {
-				lifeStealChance += it.abilities->lifeStealChancePercent;
+				lifeStealChancePercent += it.abilities->lifeStealChancePercent;
 			}
 		}
 	}
 
-	return lifeStealChance;
+	lifeStealChancePercentNeedUpdate = false;
+	return lifeStealChancePercent;
 }
 
 void Player::getShieldAndWeapon(const Item*& shield, const Item*& weapon) const
@@ -4361,6 +4369,8 @@ void Player::setGuild(Guild* guild)
 
 void Player::onInventoryChange()
 {
+	lifeStealPercentNeedUpdate = true;
+	lifeStealChancePercentNeedUpdate = true;
 	const CreatureEventList& inventoryChangeEvents = getCreatureEvents(CREATURE_EVENT_INVENTORY_CHANGE);
 	for (CreatureEvent* inventoryChangeEvent : inventoryChangeEvents) {
 		inventoryChangeEvent->executeOnInventoryChange(this);
