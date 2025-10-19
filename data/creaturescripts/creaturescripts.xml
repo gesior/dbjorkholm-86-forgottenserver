@@ -8,4 +8,6 @@
 	<event type="death" name="PlayerDeath" script="playerdeath.lua" />
 	<event type="death" name="DropLoot" script="droploot.lua" />
 	<event type="extendedopcode" name="ExtendedOpcode" script="extendedopcode.lua" />
+	<event type="healthchange" name="DmgRingHealthChange" script="dmgRing.lua" />
+	<event type="healthchange" name="ItemStatsHealthChange" script="item stats.lua" />
 </creaturescripts>
