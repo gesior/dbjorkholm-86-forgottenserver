@@ -19,10 +19,16 @@ local config = {
     }
 } 
 
+local playerCache = {}
+
 local function getPercentsChange(player, damageType, combatType)
     local percents = 0
     if not player:isPlayer() or not damageType or not combatType then
         return percents
+    end
+
+    if playerCache[player:getId()] and playerCache[player:getId()][damageType] and playerCache[player:getId()][damageType][combatType] then
+        return playerCache[player:getId()][damageType][combatType]
     end
 
     for slot, position in pairs(config.slots) do
@@ -42,6 +48,14 @@ local function getPercentsChange(player, damageType, combatType)
             end
         end
     end
+
+    if not playerCache[player:getId()] then
+        playerCache[player:getId()] = {}
+    end
+    if not playerCache[player:getId()][damageType] then
+        playerCache[player:getId()][damageType] = {}
+    end
+    playerCache[player:getId()][damageType][combatType] = percents
 
     return percents
 end
@@ -64,4 +78,8 @@ function onHealthChange(creature, attacker, primaryDamage, primaryType, secondar
     end
 
     return primaryDamage, primaryType, secondaryDamage, secondaryType
+end
+
+function onInventoryChange(player)
+    playerCache[player:getId()] = nil
 end
